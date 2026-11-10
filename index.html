@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Customer Information Form</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f3f5fa;--card:#fff;--ink:#14213d;--mut:#66718c;--line:#e0e6f1;--pri:#2d4fd6;--fld:#f7f8fc;--ok:#12a066;--bad:#d93a3f;--hot:#d93a3f;--warm:#b45f06;--cold:#1f6fb5;--selmix:100%;--selink:#fff;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0d1322;--card:#151d33;--ink:#e8ecf8;--mut:#93a0c0;--line:#27324f;--pri:#8aa0ff;--fld:#1a2340;--ok:#3ed598;--bad:#ff7378;--hot:#ff7378;--warm:#f5b04a;--cold:#6cb6ff;--selmix:22%;--selink:#eef1ff;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0d1322;--card:#151d33;--ink:#e8ecf8;--mut:#93a0c0;--line:#27324f;--pri:#8aa0ff;--fld:#1a2340;--ok:#3ed598;--bad:#ff7378;--hot:#ff7378;--warm:#f5b04a;--cold:#6cb6ff;--selmix:22%;--selink:#eef1ff;color-scheme:dark}
+*{box-sizing:border-box}html{scroll-padding-top:90px}
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 "Plus Jakarta Sans",system-ui,sans-serif}
+.top{position:sticky;top:0;z-index:20;background:var(--card);border-bottom:1px solid var(--line);padding:10px 20px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.av{width:42px;height:42px;border-radius:12px;background:var(--pri);color:var(--card);display:grid;place-items:center;font-weight:800}
+.who b{font-size:16px;display:block}.who span{color:var(--mut);font-size:12.5px}
+.tag{display:inline-block;padding:2px 9px;border-radius:99px;background:color-mix(in srgb,var(--pri) 15%,var(--card));color:var(--pri);font-size:12px;font-weight:600;margin-left:6px}
+.sp{flex:1}
+.timer{font-variant-numeric:tabular-nums;font-weight:700;font-size:15px;padding:6px 12px;border-radius:10px;background:var(--fld);border:1px solid var(--line)}
+.timer.live{color:var(--ok);border-color:var(--ok)}
+.btn{border:1px solid transparent;border-radius:10px;padding:9px 15px;font:600 13.5px "Plus Jakarta Sans",system-ui,sans-serif;cursor:pointer;color:#fff}
+:focus-visible{outline:2px solid var(--pri);outline-offset:2px}
+.call{background:#12a066}.hang{background:#d93a3f}.btn:disabled{opacity:.4;cursor:not-allowed}
+.ghost{background:var(--fld);color:var(--ink);border-color:var(--line)}.prime{background:var(--pri);color:var(--card)}
+.called{display:flex;align-items:center;gap:7px;font-weight:600;font-size:13px}.called input{width:auto}
+.wrap{display:grid;grid-template-columns:220px minmax(0,1fr) 300px;gap:22px;max-width:1500px;margin:20px auto 110px;padding:0 20px}
+.side{position:sticky;top:84px;align-self:start;display:flex;flex-direction:column;gap:12px}
+nav{display:flex;flex-direction:column;gap:3px}
+nav a{display:flex;align-items:center;gap:9px;padding:8px 12px;border-radius:10px;color:var(--mut);text-decoration:none;font-weight:600}
+nav a:hover,nav a.on{background:var(--card);color:var(--ink)}
+nav i{width:8px;height:8px;border-radius:50%;background:var(--line);margin-left:auto}nav i.done{background:var(--ok)}
+.bar{height:6px;border-radius:9px;background:var(--line);overflow:hidden;margin-top:6px}.bar div{height:100%;width:0;background:var(--ok);transition:width .3s}
+.prog{padding:10px 12px;background:var(--card);border-radius:12px;border:1px solid var(--line);font-size:12.5px}
+.phone{border:6px solid color-mix(in srgb,var(--ink) 80%,var(--card));border-radius:28px;background:var(--card);padding:14px 12px;text-align:center}
+.phone .nt{width:44px;height:5px;border-radius:9px;background:var(--line);margin:0 auto 10px}
+.phone .st{font-size:11.5px;color:var(--mut);font-weight:600}.phone .num{font-weight:700;font-size:14px;margin:2px 0}
+.phone .pt{font-size:26px;font-weight:800;font-variant-numeric:tabular-nums}
+.pb{display:flex;justify-content:center;gap:10px;margin:10px 0}
+.rb{width:46px;height:46px;border-radius:50%;border:0;cursor:pointer;color:#fff;font:700 11px "Plus Jakarta Sans",system-ui,sans-serif}
+.rb.m{background:var(--fld);color:var(--ink);border:1px solid var(--line)}.rb.m.on{background:var(--bad);color:#fff;border-color:var(--bad)}
+.rb:disabled{opacity:.35;cursor:not-allowed}
+.mix{text-align:left;margin-top:8px;font-size:11.5px}.mix div{display:flex;align-items:center;gap:6px;margin:4px 0}
+.mix span{width:34px;font-weight:700}.mix .tr{flex:1;height:7px;border-radius:9px;background:var(--line);overflow:hidden}.mix .tr i{display:block;height:100%}
+.mix b{width:22px;text-align:right}
+.sum{border-radius:16px;padding:16px 18px;margin-bottom:16px;background:color-mix(in srgb,var(--pri) var(--selmix),var(--card));color:var(--selink);border:1px solid var(--pri)}
+.sum h3{margin:0 0 10px;font-size:14px;display:flex;gap:8px;align-items:center}.sum h3 small{font-weight:500;opacity:.8}
+.kp{display:grid;grid-template-columns:repeat(6,1fr);gap:10px}
+.kp div{background:color-mix(in srgb,var(--card) 18%,transparent);border-radius:12px;padding:9px 11px}
+.kp b{display:block;font-size:22px;font-weight:800;line-height:1.1}.kp span{font-size:11.5px;opacity:.9}
+section{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;margin-bottom:16px}
+h2{font-size:15px;margin:0 0 14px;display:flex;align-items:center;gap:10px}h2 .seg{margin-left:auto}
+.g{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.s2{grid-column:span 2}.s3{grid-column:1/-1}
+label{display:block;font-weight:600;font-size:12.5px;margin-bottom:6px}label em{color:var(--bad);font-style:normal}
+select,input,textarea{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--fld);color:var(--ink);font:inherit}
+.f.err>.chips,.f.err>select,.f.err>textarea,.f.err>input{border-color:var(--bad);box-shadow:0 0 0 3px color-mix(in srgb,var(--bad) 18%,transparent)}
+.f.err>.chips{border:1px solid var(--bad);border-radius:12px;padding:6px}
+small.e{display:none;color:var(--bad);font-size:11.5px;margin-top:3px}.f.err>small.e{display:block}
+.chips{display:flex;flex-wrap:wrap;gap:6px}.chips.sc{max-height:132px;overflow:auto;padding:2px}
+.chip{--c:var(--pri);padding:7px 12px;border-radius:99px;border:1px solid var(--line);background:var(--fld);cursor:pointer;font:600 12.5px "Plus Jakarta Sans",system-ui,sans-serif;color:var(--ink)}
+.chip:hover{border-color:var(--c)}
+.chip.on{background:color-mix(in srgb,var(--c) var(--selmix),var(--card));color:var(--selink);border-color:var(--c)}
+.hot{--c:var(--hot)}.warm{--c:var(--warm)}.cold{--c:var(--cold)}
+.seg{display:inline-flex;background:var(--fld);border:1px solid var(--line);border-radius:10px;padding:3px}
+.seg button{border:0;background:none;padding:5px 14px;border-radius:8px;font:600 12.5px "Plus Jakarta Sans",system-ui,sans-serif;color:var(--mut);cursor:pointer}.seg button.on{background:var(--card);color:var(--pri);box-shadow:0 1px 3px #0003}
+.srch{margin-bottom:7px;padding:7px 10px}
+.badge{margin-left:auto;font-size:12px;font-weight:700;padding:3px 10px;border-radius:99px;color:var(--selink);background:color-mix(in srgb,var(--c) var(--selmix),var(--card));border:1px solid var(--c)}
+.ai{margin-top:12px;border:1px dashed var(--pri);border-radius:12px;padding:10px 12px;display:none}.ai.show{display:block}
+.ai b{font-size:12.5px;color:var(--pri)}.ai .chips{margin-top:7px}
+.bot{position:fixed;left:0;right:0;bottom:0;z-index:20;background:var(--card);border-top:1px solid var(--line);padding:12px 20px calc(12px + env(safe-area-inset-bottom,0px));display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.bot .msg{color:var(--mut);font-size:12.5px}
+.toast{position:fixed;left:50%;bottom:84px;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:10px;font-weight:600;opacity:0;pointer-events:none;transition:opacity .25s;z-index:30}.toast.show{opacity:1}
+.cnt{float:right;color:var(--mut);font-size:11.5px;font-weight:500}
+dialog{border:1px solid var(--line);border-radius:16px;background:var(--card);color:var(--ink);width:min(720px,94vw);padding:18px}
+dialog::backdrop{background:#0008}dialog textarea{height:300px;font:12px/1.5 ui-monospace,Menlo,monospace}
+@media(max-width:1200px){.wrap{grid-template-columns:220px minmax(0,1fr)}.rside{grid-column:2;position:static!important}}
+@media(max-width:900px){.wrap{grid-template-columns:1fr}.rside{grid-column:1}nav,.prog{display:none}.side{position:static;max-width:260px}.g{grid-template-columns:1fr}.s2{grid-column:auto}.kp{grid-template-columns:repeat(3,1fr)}}
+
+.sg{display:flex;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--fld)}
+.sg button{flex:1;padding:9px 8px;border:0;border-right:1px solid var(--line);background:none;color:var(--ink);font:600 12.5px "Plus Jakarta Sans",system-ui,sans-serif;cursor:pointer}
+.sg button:last-child{border-right:0}.sg button.on{background:color-mix(in srgb,var(--pri) var(--selmix),var(--card));color:var(--selink)}
+.md{position:relative}.md summary{list-style:none;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--fld);cursor:pointer;display:flex;gap:8px;align-items:center}
+.md summary::-webkit-details-marker{display:none}.md summary::after{content:"▾";margin-left:auto;color:var(--mut)}.md summary .ph{color:var(--mut)}
+.md summary .n{background:var(--pri);color:var(--card);border-radius:99px;padding:0 8px;font-size:11.5px;font-weight:700}
+.mp{position:absolute;z-index:15;left:0;right:0;top:calc(100% + 4px);background:var(--card);border:1px solid var(--line);border-radius:12px;padding:8px;box-shadow:0 10px 30px #0003}
+.ml{max-height:240px;overflow:auto}.ml label,.cb label{display:flex;gap:8px;align-items:center;padding:6px 8px;border-radius:8px;font-weight:500;margin:0;cursor:pointer}.ml label:hover{background:var(--fld)}
+.ml input,.cb input{width:auto;accent-color:var(--pri)}
+.cb{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:6px}
+.cb label{border:1px solid var(--line);background:var(--fld);padding:8px 10px}.cb label:has(input:checked){border-color:var(--pri);background:color-mix(in srgb,var(--pri) 14%,var(--card))}
+.hint{color:var(--mut);font-size:12.5px;padding:9px 0}
+.qk{border:0;background:none;color:var(--pri);font:600 12px "Plus Jakarta Sans",system-ui,sans-serif;cursor:pointer;padding:6px 8px 0 0}
+.tg{border:1px solid var(--line);background:var(--fld);color:var(--pri);border-radius:8px;padding:4px 10px;font:600 12px "Plus Jakarta Sans",system-ui,sans-serif;cursor:pointer}
+section.col .g{display:none}section.col h2{margin:0}.fup .rq{display:none}
+.pnote{font-size:12px;color:var(--mut);margin-top:6px}.pnote a{color:var(--pri);font-weight:600}
+.rside{position:sticky;top:84px;align-self:start;display:flex;flex-direction:column;gap:12px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px}
+.card h3{margin:0 0 8px;font-size:13.5px;display:flex;align-items:center;gap:8px}.card h3 .badge{margin-left:auto}
+.r{display:flex;justify-content:space-between;gap:10px;padding:5px 0;border-bottom:1px dashed var(--line);font-size:12.5px}.r:last-child{border:0}
+.r span{color:var(--mut);flex:none}.r b{text-align:right;font-weight:600}
+.pv{font-size:12.5px;line-height:1.5}.pv i{color:var(--mut)}
+.ai .chip{background:var(--fld);border:1px solid var(--line);border-radius:99px;padding:6px 12px;cursor:pointer;color:var(--ink);font:600 12.5px "Plus Jakarta Sans",system-ui,sans-serif}.ai .chip.all{background:var(--pri);color:var(--card);border-color:var(--pri)}
+.hist{padding:12px 14px}.hist .hh{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px;font-size:13px}.hist .hh b{font-size:13.5px}.hist .hh .sp{flex:1}
+.hist select{width:auto;padding:4px 8px;font-size:12px;border-radius:8px;background:color-mix(in srgb,var(--card) 25%,transparent);color:inherit;border:1px solid color-mix(in srgb,var(--selink) 40%,transparent)}.hist select option{color:var(--ink);background:var(--card)}
+.hist .btn{padding:4px 10px;font-size:12px;background:color-mix(in srgb,var(--card) 25%,transparent);color:inherit;border:1px solid color-mix(in srgb,var(--selink) 40%,transparent)}
+.hc{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.hc>div{background:color-mix(in srgb,var(--card) 18%,transparent);border-radius:10px;padding:8px 10px}.hc small{opacity:.85;font-size:11px;display:block}.hc b{display:block;font-size:12.5px;line-height:1.3}.hc i{display:block;font-size:11.5px;opacity:.9;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+@media(max-width:900px){.hc{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="av" id="av">FA</div>
+  <div class="who"><b id="nm">Farhan Almas</b><span>8801772209999<span class="tag">Nov_CMS_SEP</span></span></div>
+  <div class="sp"></div>
+  <label class="called" style="margin:0"><input type="checkbox" id="called"> Is called <em>*</em></label>
+  <button class="btn ghost" id="theme" title="Switch theme">Theme: Auto</button>
+  <button class="btn ghost" id="it">Share with IT</button>
+</header>
+
+<div class="wrap">
+<aside class="side">
+<nav id="nav">
+  <a href="#s1" class="on">Customer<i></i></a><a href="#s2">Call details<i></i></a><a href="#s3">Student<i></i></a><a href="#s4">Course advice<i></i></a><a href="#s5">Action &amp; sales<i></i></a><a href="#s6">Remarks<i></i></a>
+</nav>
+<div class="prog"><b id="pct">0%</b> required fields done<div class="bar"><div id="barf"></div></div></div>
+<div class="phone" aria-label="Softphone">
+  <div class="nt"></div>
+  <div class="st" id="pst">Ready to call</div>
+  <div class="num">8801772209999</div>
+  <div class="pt" id="ptm">00:00</div>
+  <div class="pb">
+    <button class="rb m" id="mute" aria-pressed="false" disabled>Mute</button>
+    <button class="rb call" id="pcall">Call</button>
+    <button class="rb hang" id="phang" disabled>End</button>
+  </div>
+  <div class="mix" id="mix"></div>
+</div>
+</aside>
+
+<main>
+<div class="sum hist" id="sum"></div>
+
+<section id="s1"><h2>Customer details</h2><div class="g">
+  <div><label>Customer number <em>*</em></label><input value="8801772209999" readonly></div>
+  <div><label>Customer name</label><input id="cname" value="Farhan Almas"></div>
+  <div><label>Cohort name <em>*</em></label><input value="Nov_CMS_SEP" readonly></div>
+</div></section>
+
+<section id="s2"><h2>Call details</h2><div class="g">
+  <div class="f" data-f="disp"><label>Disposition <em>*</em></label><div id="cDisp"></div><small class="e">Choose a disposition</small></div>
+  <div class="f" data-f="callType"><label>Call type <em>*</em></label><div id="cCall"></div><small class="e">Choose a call type</small></div>
+  <div class="f" data-f="talk"><label>Talking to <em>*</em></label><div id="cTalk"></div><small class="e">Choose who you spoke with</small></div>
+  <div><label>Branch</label><div id="cBranch"></div></div>
+</div></section>
+
+<section id="s3"><h2>Student information <span class="seg" id="seg"><button class="on" data-v="Adult">Adult</button><button data-v="Kids">Kids</button></span><button type="button" class="tg" id="ts3" data-toggle="s3" hidden></button></h2><div class="g">
+  <div class="f" data-f="status"><label>Current status <em class="rq">*</em></label><div id="cStatus"></div><small class="e">Select current status</small></div>
+  <div class="f" data-f="studying"><label>Currently studying? <em class="rq">*</em></label><div id="cStud"></div><small class="e">Select an option</small></div>
+  <div><label>District</label><input data-s="district" id="district" list="dl" placeholder="Type district"><datalist id="dl"><option>Dhaka<option>Chattogram<option>Sylhet<option>Rajshahi<option>Khulna<option>Barishal<option>Rangpur<option>Mymensingh<option>Gazipur<option>Narayanganj<option>Cumilla<option>Bogura</datalist></div>
+  <div><label>Future plan</label><div id="cFuture"></div></div>
+  <div class="s2"><label>Current preparation plan</label><div id="cPrep"></div></div>
+</div></section>
+
+<section id="s4"><h2>Course advice<button type="button" class="tg" id="ts4" data-toggle="s4" hidden style="margin-left:auto"></button></h2><div class="g">
+  <div class="f" data-f="course"><label>Course of advice <em class="rq">*</em></label><div id="cCourse"></div><small class="e">Pick at least one course</small></div>
+  <div><label>Other course of advice (optional)</label><div id="cOther"></div></div>
+  <div><label>Preferred batch time</label><div id="cBatch"></div></div>
+</div></section>
+
+<section id="s5"><h2>Action &amp; sales <span class="badge" id="tbadge" hidden></span></h2><div class="g">
+  <div class="f" data-f="plan"><label>Action plan <em>*</em></label><div id="cPlan"></div><div class="pnote" id="pnote"></div><small class="e">Select an action plan</small></div>
+  <div class="f s2" data-f="sp" id="wsp" hidden><label>Sales potential <em>*</em></label><div id="cSp"></div><small class="e">Select a sales potential</small></div>
+  <div class="f s3" data-f="add" id="wadd" hidden><label>Additional sales potential <em>*</em> <span class="cnt">pick all that apply</span></label><div id="cAdd"></div><small class="e">Pick at least one</small></div>
+  <div class="f" data-f="fu"><label>Follow-up date &amp; time <em id="fur" hidden>*</em></label><input type="datetime-local" id="fu" data-s="fu"><div id="quick"></div><small class="e">Set a follow-up for this lead</small></div>
+  <div><label>WhatsApp communication</label><div id="cWa"></div></div>
+  <div><label>Alternative number</label><input id="alt" data-s="alt" inputmode="tel" placeholder="01XXXXXXXXX"></div>
+</div></section>
+
+<section id="s6"><h2>Remarks</h2>
+  <div class="f" data-f="rem"><label>Call notes <em>*</em> <span class="cnt" id="rc">0 / 500</span></label>
+  <textarea id="rem" rows="4" maxlength="500" placeholder="Write call notes. Example: Father asked about IELTS price, will talk to family, call tomorrow."></textarea><small class="e">Add a short remark</small></div>
+  <div class="ai" id="ai"><b>Smart suggestions from your remarks</b><div class="chips" id="aic"></div></div>
+</section>
+</main>
+
+<aside class="rside">
+  <div class="card"><h3>This call, live summary <span class="badge" id="sbadge" hidden></span></h3><div id="nowBox"></div>
+    <button class="btn ghost" id="cpSum" style="width:100%;margin-top:10px">Copy summary</button></div>
+</aside>
+</div>
+
+<div class="bot">
+  <span class="msg" id="msg">Fill the required fields to save.</span><div class="sp"></div>
+  <button class="btn ghost" id="reset">Clear</button>
+  <button class="btn ghost" id="save">Save</button>
+  <button class="btn prime" id="saveNext">Save &amp; next customer</button>
+</div>
+<div class="toast" id="toast"></div>
+
+<dialog id="itd">
+  <h2 style="margin-top:0">Share with IT</h2>
+  <p style="margin:0 0 10px;color:var(--mut)">Live form data, option rules and every dropdown list, with the field names from the Disposition Bible.</p>
+  <textarea id="json" readonly></textarea>
+  <div style="display:flex;gap:8px;margin-top:12px;justify-content:flex-end"><button class="btn ghost" id="cpLink">Copy page link</button><button class="btn prime" id="cpJson">Copy JSON</button><button class="btn ghost" id="closeIt">Close</button></div>
+</dialog>
+
+<script>
+const D={"disp": ["Call Received", "Followed Up"], "callType": {"Call Received": ["Autodial", "Outbound", "WhatsApp", "Mobile"], "Followed Up": ["Follow Up Dialer", "Follow Up WhatsApp", "Follow Up Mobile"]}, "talk": ["Father", "Mother", "Relative", "Siblings", "Student", "Not Applicable"], "status": ["Student", "Govt Job Holder", "Private Job Holder", "Bank Job Holder", "MNC Job Holder", "Tutor", "Job Preparation Holder", "Business", "House Wife", "Freelencer", "Searching Job", "Not Applicable"], "studying": ["Below Age of Schooling", "Pre Play Group", "Nursery", "KG", "Class 1", "Class 2", "Class 3", "Class 4", "Class 5", "Class 6", "Class 7", "Class 8", "Class 9", "Class 10", "Class 11", "Class 12", "Honors", "Masters", "Degree", "Diploma", "University Admission Candidate", "PHD", "Not Applicable"], "prep": ["Offline Coaching", "Online Coaching", "Private Tutor", "Group Studies", "Self Sutdies", "Ai & Youtube Support", "Free Resources", "Not Applicable"], "future": ["BCS", "Govt Job", "Bank Job", "Business", "Study Aborad", "Medical Admission/Job", "Private Job", "MNC Job", "Private University Admission", "Public University Admission", "Nursing", "Not Applicable", "Abroad Job", "Try for Aborad Citizenship"], "course": ["IELTS Regular", "IELTS Crash", "Basic Package", "Mental Math Bundle", "Junior Combo", "Private University", "Abacus", "Abacus 2", "Abacus 3", "Abacus 4", "Spoken English", "Grammar", "Jr. English", "Kids English", "PTE", "Digital SAT", "Advance Writing", "After SSC", "IBA MBA", "BBA", "Abacus Bundle", "Kids+Abacus L1", "SAT", "GED", "Kids Combo", "IBA BBA", "MBA Crash", "Abacus 5", "PTE Package", "Executive English"], "other": ["IELTS Regular", "IELTS Crash", "Basic Package", "Mental Math Bundle", "Junior Combo", "Private University", "Abacus", "Abacus 2", "Abacus 3", "Abacus 4", "Spoken English", "Grammar", "Jr. English", "Kids English", "PTE", "Digital SAT", "Advance Writing", "After SSC", "IBA MBA", "BBA", "Abacus Bundle", "Kids+Abacus L1", "SAT", "GED", "Kids Combo", "IBA BBA", "MBA Crash", "Abacus 5", "PTE Package", "Executive English"], "batch": ["07:00 PM – 09:00 PM", "09:00 PM – 11:00 PM", "11:00 PM – 01:00 AM", "01:00 AM – 03:00 AM", "03:00 AM – 05:00 AM", "05:00 AM – 07:00 AM", "07:00 AM – 09:00 AM", "09:00 AM – 11:00 AM", "11:00 AM – 01:00 PM", "01:00 PM – 03:00 PM", "03:00 PM – 05:00 PM", "05:00 PM – 07:00 PM"], "wa": ["Sent Details", "Number Not on WhatsApp", "Will Send Later", "Not Needed"], "plans": [{"n": "Promised", "sp": [{"n": "Promised to Pay", "add": []}, {"n": "Promised Partial / Installment Payment", "add": []}, {"n": "Promised After Confirmation", "add": []}, {"n": "Promised After Financial Arrangement", "add": []}]}, {"n": "Interested", "sp": [{"n": "Ready to Enroll", "add": ["Interested in Admission", "Course Details Confirmed", "Batch / Schedule Confirmed", "Pricing Accepted", "All of the above."]}, {"n": "Needs Follow-up", "add": ["Will Decide Later", "Needs More Information", "Comparing Other Institutes", "Discussing with Family"]}, {"n": "Course / Schedule Related", "add": ["Waiting for Next Batch", "Preferred Batch Unavailable", "Wants Offline Option", "Course Duration / Curriculum Concern"]}, {"n": "Price / Financial Concern", "add": ["Discount Required", "Price Too High", "Needs Installment Option", "Waiting for Financial Arrangement"]}]}, {"n": "Indecisive", "sp": [{"n": "Comparing Options", "add": ["Comparing Other Institutes", "Comparing Course Quality", "Comparing Pricing", "Seeking Other Recommendations"]}, {"n": "Personal Decision", "add": ["Needs Family Discussion", "Needs Guardian Approval", "Not Yet Sure About Joining", "Seeking More Time to Decide"]}, {"n": "Course / Career Clarity", "add": ["Unsure Which Course to Choose", "Unsure About Learning Goals", "Unsure About Course Benefits", "Uncertain About Career / Study Abroad Plans"]}, {"n": "Timing / Commitment", "add": ["Not Ready to Start", "Waiting for a Suitable Time", "Uncertain About Batch / Schedule", "Concerned About Managing Study Time"]}]}, {"n": "Invalid", "sp": [{"n": "Age / Eligibility Issue", "add": ["Overaged", "Underaged", "Not Eligible for Course"]}, {"n": "Student Unavailability", "add": ["Student Not Available", "Student Deceased", "Contact Person Is Not the Student"]}, {"n": "No Purchase / Course Intention", "add": ["Registered Without Enrolment Intention", "Registered for Free Resources / Teaching Purpose", "No Course Available of Interest", "Looking for Free Resources Only"]}, {"n": "Invalid Registration / Lead Quality", "add": ["Fake / Spam Registration", "Duplicate Registration", "Wrong / Incomplete Information", "Test / Dummy Registration"]}]}, {"n": "Sale Forward (Cross Sale)", "sp": [{"n": "Already talked with another Telesales Agent", "add": ["All the Telesales Agent Name"]}, {"n": "Already Consulted with Offline Branch", "add": ["Offline Branch"]}, {"n": "Already Talked with Social [Marketing Department]", "add": ["All the Query Managment Agent"]}]}, {"n": "DND", "sp": [{"n": "Mentors’ Employee", "add": []}, {"n": "Mentors’ Telesales Agent", "add": []}, {"n": "Not Interested in Receiving any Calls/Promotional Messages", "add": []}, {"n": "Activation Unaware", "add": []}]}, {"n": "Already Enrolled", "sp": [{"n": "Wont Buy Due to Already Enrolled in Online", "add": []}, {"n": "Wont Buy Due to Already Enrolled in Offline", "add": []}]}, {"n": "Not Interested", "sp": [{"n": "Price / Financial Reasons", "add": ["Course Fee Too High", "Cannot Afford the Course", "Discount Not Satisfactory", "No Installment Facility"]}, {"n": "Course / Product Reasons", "add": ["Course Content Not Suitable", "Course Duration Not Suitable", "Preferred Batch / Schedule Unavailable", "Not Interested in Online Learning"]}, {"n": "Competitor / Alternative Reasons", "add": ["Enrolled in Another Institute", "Selected a Competitor", "Prefers Offline Coaching", "Learning from Another Platform"]}, {"n": "Personal / Demand Reasons", "add": ["No Longer Interested", "Changed Study / Career Plan", "Not Planning to Learn Now", "Decided Not to Enroll", "Decided Not to Enrol"]}]}]};
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const S={called:false,disp:"Call Received",callType:"",talk:"",status:"",studying:"",kid:false,district:"",branch:"",branchTxt:"",prep:new Set,future:"",course:new Set,other:new Set,batch:"",plan:"",sp:"",add:new Set,addText:"",fu:"",wa:"",alt:"",rem:"",showAll:false,open:{s3:false,s4:false}};
+const H={None:[],
+ Interested:[
+  {when:"08 Nov, 7:30 PM",call:"Outbound",to:"Father",plan:"Interested",sp:"Price / Financial Concern",add:["Discount Required","Needs Installment Option"],note:"Asked for a discount, will decide with father"},
+  {when:"05 Nov, 4:10 PM",call:"Autodial",to:"Student",plan:"Indecisive",sp:"Course / Career Clarity",add:["Unsure Which Course to Choose"],note:"Not sure between IELTS and Spoken English"},
+  {when:"02 Nov, 11:00 AM",call:"WhatsApp",to:"Student",plan:"Interested",sp:"Needs Follow-up",add:["Needs More Information"],note:"Asked for course details on WhatsApp"}],
+ Promised:[
+  {when:"07 Nov, 6:00 PM",call:"Follow Up Mobile",to:"Mother",plan:"Promised",sp:"Promised to Pay",add:[],note:"Will pay by bKash on Friday"},
+  {when:"04 Nov, 3:30 PM",call:"Outbound",to:"Mother",plan:"Interested",sp:"Ready to Enroll",add:["Interested in Admission"],note:"Wants to join the evening batch"}],
+ Indecisive:[
+  {when:"06 Nov, 5:20 PM",call:"Outbound",to:"Father",plan:"Indecisive",sp:"Personal Decision",add:["Needs Family Discussion"],note:"Wants to talk to the family first"},
+  {when:"03 Nov, 12:00 PM",call:"Autodial",to:"Student",plan:"Interested",sp:"Needs Follow-up",add:["Will Decide Later"],note:"Will decide later"}]};
+const last=()=>H[PREVK][0]||null;
+const BR={dhaka:["Banani","Kalabagan","Mirpur","Mouchak","Uttara Campus - 1","Uttara Campus - 2","Wari"],out:["Barishal","Brahmanbaria","Chattogram","Dinajpur","Faridpur","Khulna","Moulvibazar","Nawabganj","Noakhali","Rajshahi","Rangpur","Sylhet"],other:["Online","Australia (Melbourne)"]};
+const branchVal=()=>S.branch=="__m"?S.branchTxt:S.branch;
+let PREVK="Interested";
+const T={n:24,hot:5,warm:9,cold:10,fu:7,talk:161*24};
+let showErr=false,t0=0,iv=0,muted=false,lastTalk=0;
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const planOf=n=>D.plans.find(p=>p.n==n),spOf=()=>(planOf(S.plan)?.sp||[]).find(x=>x.n==S.sp);
+const addList=()=>spOf()?.add||[];
+const isTxt=v=>/^All the /.test(v)||v=="Offline Branch";
+const isAll=v=>/^All of the above/.test(v);
+const lab=v=>v.replace(/\.$/,"");
+function temp(){if(!S.plan)return"";if(S.plan=="Promised")return"hot";if(S.plan=="Interested")return S.sp=="Ready to Enroll"?"hot":"warm";if(S.plan=="Indecisive")return"warm";return"cold"}
+const fup=()=>S.disp=="Followed Up";
+const restricted=()=>fup()&&(PREVK=="Interested"||PREVK=="Promised")&&!S.showAll;
+// ---- controls: 2-4 short options = segmented buttons, longer lists = dropdown ----
+const short=l=>l.length&&l.length<=4&&l.every(v=>v.length<=20);
+function ctl(key,list,ph){
+ if(!list.length)return`<div class="hint">Choose a disposition first</div>`;
+ if(short(list))return`<div class="sg" role="radiogroup">`+list.map(v=>`<button type="button" role="radio" aria-checked="${S[key]==v}" class="${S[key]==v?"on":""}" data-k="${key}" data-v="${esc(v)}">${esc(v)}</button>`).join("")+`</div>`;
+ return`<select data-k="${key}"><option value="">${ph||"Select"}</option>`+list.map(v=>`<option${S[key]==v?" selected":""}>${esc(v)}</option>`).join("")+`</select>`}
+const PH={prep:"Select preparation plan(s)",course:"Select course(s) of advice",other:"Select optional course(s)"};
+function sumTxt(k){const s=[...S[k]].map(lab);return s.length?`<span>${esc(s.slice(0,2).join(", "))}${s.length>2?"…":""}</span><b class="n">${s.length}</b>`:`<span class="ph">${PH[k]||"Select"}</span>`}
+function multi(key,list){
+ const row=v=>`<label><input type="checkbox" data-mk="${key}" value="${esc(v)}"${S[key].has(v)?" checked":""}> ${esc(lab(v))}</label>`;
+ if(list.length<=5)return`<div class="cb">`+list.map(row).join("")+`</div>`;
+ return`<details class="md" data-d="${key}"><summary>${sumTxt(key)}</summary><div class="mp">${list.length>8?`<input class="ms" placeholder="Search">`:""}<div class="ml">${list.map(row).join("")}</div></div></details>`}
+const B={
+ disp:()=>$("#cDisp").innerHTML=ctl("disp",D.disp),
+ callType:()=>$("#cCall").innerHTML=ctl("callType",D.callType[S.disp]||[]),
+ talk:()=>$("#cTalk").innerHTML=ctl("talk",D.talk),
+ branch:()=>{const g=(t,l)=>`<optgroup label="${t}">`+l.map(v=>`<option${S.branch==v?" selected":""}>${v}</option>`).join("")+`</optgroup>`;
+  $("#cBranch").innerHTML=`<select data-k="branch"><option value="">Select branch</option>${g("Mentors’ Dhaka (7 branches)",BR.dhaka)}${g("Outside Dhaka",BR.out)}${g("Online / Overseas",BR.other)}<option value="__m"${S.branch=="__m"?" selected":""}>Other, write manually…</option></select>`+(S.branch=="__m"?`<input data-s="branchTxt" placeholder="Type branch name" value="${esc(S.branchTxt)}" style="margin-top:8px">`:"")},
+ status:()=>$("#cStatus").innerHTML=ctl("status",D.status),
+ studying:()=>$("#cStud").innerHTML=ctl("studying",D.studying),
+ future:()=>$("#cFuture").innerHTML=ctl("future",D.future),
+ batch:()=>$("#cBatch").innerHTML=ctl("batch",D.batch),
+ wa:()=>$("#cWa").innerHTML=ctl("wa",D.wa),
+ prep:()=>$("#cPrep").innerHTML=multi("prep",D.prep),
+ course:()=>$("#cCourse").innerHTML=multi("course",D.course),
+ other:()=>$("#cOther").innerHTML=multi("other",D.other),
+ plan:()=>{const all=D.plans.map(p=>p.n),lim=restricted();$("#cPlan").innerHTML=ctl("plan",lim?all.filter(n=>n=="Interested"||n=="Promised"):all,"Select action plan");
+  $("#pnote").innerHTML=lim?`Last call was <b>${PREVK}</b>, so only Interested and Promised are shown. <a href="#" id="showAll">Show all</a>`:(fup()&&S.showAll&&(PREVK=="Interested"||PREVK=="Promised")?`Showing all action plans. <a href="#" id="showLim">Show only Interested / Promised</a>`:"")},
+ sp:()=>{const p=planOf(S.plan);$("#wsp").hidden=!p;$("#cSp").innerHTML=p?ctl("sp",p.sp.map(x=>x.n),"Select sales potential"):""},
+ add:()=>{const a=addList();$("#wadd").hidden=!a.length;const c=$("#cAdd");
+  if(a.length==1&&isTxt(a[0]))c.innerHTML=a[0]=="Offline Branch"?`<input data-s="addText" list="brl" placeholder="Pick or type branch name" value="${esc(S.addText)}"><datalist id="brl">${BR.dhaka.concat(BR.out).map(v=>`<option>${v}</option>`).join("")}</datalist>`:`<input data-s="addText" placeholder="Agent / manager name" value="${esc(S.addText)}">`;
+  else c.innerHTML=a.length?multi("add",a):""}
+};
+function syncUI(){Object.values(B).forEach(f=>f());$("#district").value=S.district;$("#alt").value=S.alt;$("#fu").value=S.fu;$("#rem").value=S.rem;$("#rc").textContent=S.rem.length+" / 500";$("#called").checked=S.called;render()}
+function set(k,v){S[k]=v;
+ if(k=="disp"){S.callType="";S.showAll=false;B.callType();B.plan()}
+ if(k=="plan"){S.sp="";S.add.clear();S.addText="";B.sp();B.add()}
+ if(k=="sp"){S.add.clear();S.addText="";B.add()}
+ B[k]&&B[k]();render()}
+// ---- derived UI ----
+function reqs(){const f=fup(),r=[["disp","Disposition",S.disp,"s2"],["callType","Call type",S.callType,"s2"],["talk","Talking to",S.talk,"s2"]];
+ if(!f)r.push(["status","Status",S.status,"s3"],["studying","Studying",S.studying,"s3"],["course","Course",S.course.size,"s4"]);
+ r.push(["plan","Action plan",S.plan,"s5"],["sp","Sales potential",S.sp,"s5"]);
+ if(addList().length)r.push(["add","Additional",S.add.size||S.addText.trim(),"s5"]);
+ if(temp()&&temp()!="cold")r.push(["fu","Follow-up",S.fu,"s5"]);r.push(["rem","Remarks",S.rem.trim(),"s6"],["called","Is called",S.called,"s2"]);return r}
+const mmss=s=>String(Math.floor(s/60)).padStart(2,"0")+":"+String(s%60).padStart(2,"0");
+const fmt=d=>{d=new Date(d);d.setMinutes(d.getMinutes()-d.getTimezoneOffset());return d.toISOString().slice(0,16)};
+const at=(dd,h)=>{const d=new Date;d.setDate(d.getDate()+dd);d.setHours(h,0,0,0);return fmt(d)};
+const Q=[["In 1 hour",()=>{const d=new Date;d.setHours(d.getHours()+1);return fmt(d)}],["Tomorrow 10 AM",()=>at(1,10)],["In 3 days",()=>at(3,11)]];
+const pretty=v=>v?new Date(v).toLocaleString([],{day:"2-digit",month:"short",hour:"numeric",minute:"2-digit"}):"";
+const bcls=p=>({Promised:"hot",Interested:"warm",Indecisive:"warm"}[p]||"cold");
+function chain(){return[S.plan,S.sp].filter(Boolean).join(" › ")}
+function lines(){const L=s=>[...s].map(lab).join(", ");return[["Disposition",S.disp],["Call type",S.callType],["Talking to",S.talk],["Branch",branchVal()],["Student",[S.status,S.studying,S.district].filter(Boolean).join(" · ")],["Preparation",L(S.prep)],["Future plan",S.future],["Course advice",L(S.course)],["Optional course",L(S.other)],["Batch",S.batch],["Action plan",chain()],["Additional",[L(S.add),S.addText].filter(Boolean).join(", ")],["Follow-up",pretty(S.fu)],["WhatsApp",S.wa],["Alt number",S.alt],["Remarks",S.rem.trim()]]}
+function render(){
+ const f=fup(),tp=temp();document.body.classList.toggle("fup",f);
+ ["s3","s4"].forEach(id=>{$("#"+id).classList.toggle("col",f&&!S.open[id]);const b=$("#t"+id);b.hidden=!f;b.textContent=S.open[id]?"Hide":"Optional, show"});
+ const bd=$("#tbadge"),sb=$("#sbadge"),nm={hot:"Hot lead",warm:"Warm lead",cold:"Cold lead"};[bd,sb].forEach(b=>{b.hidden=!tp;b.className="badge "+tp;b.textContent=nm[tp]||""});
+ $("#fur").hidden=!(tp&&tp!="cold");
+ $("#quick").innerHTML=Q.map((q,i)=>`<button type="button" class="qk" data-i="${i}">${q[0]}</button>`).join("");
+ const hs=H[PREVK],P=hs[0];
+ $("#sum").innerHTML=`<div class="hh"><b>Previous communication</b><span>${hs.length?hs.length+(hs.length>1?" calls":" call")+", last on "+hs[0].when.split(",")[0]:"first contact"}</span><span class="sp"></span><select id="pvsel" aria-label="Sample history"><option>None</option><option>Interested</option><option>Promised</option><option>Indecisive</option></select>${P?`<button class="btn" id="carry">Use same as last call</button>`:""}</div>`+(hs.length?`<div class="hc">`+hs.map((h,i)=>`<div><small>${i?"":"Latest · "}${h.when} · ${esc(h.call)} · ${esc(h.to)}</small><b>${esc(h.plan)} › ${esc(h.sp)}</b><i>${h.add.length?esc(h.add.join(", "))+" · ":""}“${esc(h.note)}”</i></div>`).join("")+`</div>`:`<div style="opacity:.9;font-size:12.5px">No earlier calls recorded for this customer.</div>`);
+ $("#pvsel").value=PREVK;
+ const mx=Math.max(T.hot,T.warm,T.cold,1);$("#mix").innerHTML=[["Hot","hot"],["Warm","warm"],["Cold","cold"]].map(([l,k])=>`<div><span>${l}</span><div class="tr"><i style="width:${T[k]/mx*100}%;background:var(--${k})"></i></div><b>${T[k]}</b></div>`).join("")+(tp?`<div style="justify-content:center;margin-top:8px"><span class="badge ${tp}" style="margin:0;width:auto">This lead: ${tp}</span></div>`:"");
+ $("#nowBox").innerHTML=lines().map(([l,v])=>`<div class="r"><span>${l}</span><b>${v?esc(v):"—"}</b></div>`).join("");
+ const r=reqs(),miss=r.filter(x=>!x[2]),pc=Math.round((r.length-miss.length)/r.length*100);
+ $("#pct").textContent=pc+"%";$("#barf").style.width=pc+"%";
+ $$("#nav a").forEach(a=>{const id=a.getAttribute("href").slice(1),rs=r.filter(x=>x[3]==id);a.querySelector("i").classList.toggle("done",rs.every(x=>x[2]))});
+ $$(".f[data-f]").forEach(x=>x.classList.toggle("err",showErr&&miss.some(m=>m[0]==x.dataset.f)));
+ $("#msg").textContent=miss.length?miss.length+" required field(s) left: "+miss.slice(0,3).map(x=>x[1]).join(", ")+(miss.length>3?"…":""):"All required fields are complete.";
+ suggestUI()}
+// ---- events ----
+document.addEventListener("click",e=>{const t=e.target;
+ $$("details.md[open]").forEach(d=>{if(!d.contains(t))d.open=false});
+ const q=t.closest(".qk");if(q){S.fu=Q[q.dataset.i][1]();$("#fu").value=S.fu;render();return}
+ const b=t.closest(".sg button[data-k]");if(b){set(b.dataset.k,S[b.dataset.k]==b.dataset.v?"":b.dataset.v);return}
+ if(t.id=="showAll"||t.id=="showLim"){e.preventDefault();S.showAll=t.id=="showAll";B.plan();render();return}
+ const g=t.closest("[data-toggle]");if(g){S.open[g.dataset.toggle]=!S.open[g.dataset.toggle];render();return}
+ if(t.id=="carry"){const P=last();S.plan=P.plan;S.sp=P.sp;S.add=new Set(P.add);S.addText="";B.plan();B.sp();B.add();render();toast("Copied the previous action plan")}});
+document.addEventListener("change",e=>{const t=e.target;
+ if(t.matches("select[data-k]"))set(t.dataset.k,t.value);
+ else if(t.matches("input[data-mk]")){const k=t.dataset.mk,v=t.value;
+  if(k=="add"){if(isAll(v)){S.add.clear();if(t.checked)addList().forEach(x=>S.add.add(x))}else{t.checked?S.add.add(v):S.add.delete(v);addList().filter(isAll).forEach(x=>S.add.delete(x))}B.add()}
+  else{t.checked?S[k].add(v):S[k].delete(v);const d=$(`[data-d="${k}"] summary`);if(d)d.innerHTML=sumTxt(k)}
+  render()}
+ else if(t.id=="pvsel"){PREVK=t.value;S.showAll=false;B.plan();render()}
+ else if(t.id=="called"){S.called=t.checked;render()}});
+document.addEventListener("input",e=>{const t=e.target;
+ if(t.classList.contains("ms")){const q=t.value.toLowerCase();$$(".ml label",t.closest(".mp")).forEach(l=>l.hidden=!l.textContent.toLowerCase().includes(q));return}
+ if(t.dataset.s){S[t.dataset.s]=t.value;render()}});
+$("#seg").onclick=e=>{const b=e.target.closest("button");if(!b)return;S.kid=b.dataset.v=="Kids";$$("#seg button").forEach(x=>x.classList.toggle("on",x==b));render()};
+$("#cname").oninput=e=>{$("#nm").textContent=e.target.value||"Unnamed";$("#av").textContent=(e.target.value.trim().split(/\s+/).map(w=>w[0]).join("").slice(0,2)||"?").toUpperCase()};
+// ---- phone ----
+function tick(){const t=mmss(Math.floor((Date.now()-t0)/1000));$("#ptm").textContent=t}
+function startCall(){t0=Date.now();iv=setInterval(tick,500);tick();$("#pst").textContent="On call";$("#pcall").disabled=true;["#phang","#mute"].forEach(i=>$(i).disabled=false)}
+function endCall(){if(!t0)return;clearInterval(iv);lastTalk=Math.floor((Date.now()-t0)/1000);t0=0;muted=false;$("#mute").classList.remove("on");$("#mute").textContent="Mute";$("#pst").textContent="Call ended";$("#pcall").disabled=false;["#phang","#mute"].forEach(i=>$(i).disabled=true);S.called=true;$("#called").checked=true;render()}
+$("#pcall").onclick=startCall;$("#phang").onclick=endCall;
+$("#mute").onclick=()=>{muted=!muted;$("#mute").classList.toggle("on",muted);$("#mute").setAttribute("aria-pressed",muted);$("#mute").textContent=muted?"Unmute":"Mute";$("#pst").textContent=muted?"On call, muted":"On call"};
+// ---- smart suggestions from remarks (keyword rules) ----
+function suggest(){const t=S.rem.toLowerCase(),o=[];if(t.trim().length<4)return o;const h=r=>r.test(t);
+ if(!S.talk){const m=[[/father|baba|abbu|বাবা/,"Father"],[/mother|\bma\b|amma|mom|মা(?![ন-হ])/,"Mother"],[/brother|sister|\bbhai\b|\bapu\b|sibling/,"Siblings"],[/uncle|aunt|relative|cousin|khala|mama/,"Relative"]].find(x=>h(x[0]));if(m&&D.talk.includes(m[1]))o.push(["Talking to: "+m[1],()=>S.talk=m[1]])}
+ [[/ielts.*crash|crash.*ielts/,"IELTS Crash"],[/ielts/,"IELTS Regular"],[/abacus/,"Abacus"],[/spoken/,"Spoken English"],[/grammar/,"Grammar"],[/\bpte\b/,"PTE"],[/\bsat\b/,"Digital SAT"],[/mba/,"IBA MBA"],[/bba/,"BBA"],[/kids english|junior english/,"Kids English"],[/\bged\b/,"GED"],[/executive/,"Executive English"]].forEach(([r,c])=>{if(h(r)&&D.course.includes(c)&&!S.course.has(c)&&!o.some(x=>x[2]==c)&&!(c=="IELTS Regular"&&S.course.has("IELTS Crash")))o.push(["Course: "+c,()=>S.course.add(c),c])});
+ const pr=h(/price|fee|expensive|taka|টাকা/);
+ const R=[[/dnd|stop calling|do not call|don.t call/,"DND","Not Interested in Receiving any Calls/Promotional Messages",[]],
+ [/wrong number|fake|spam|duplicate|dummy/,"Invalid","Invalid Registration / Lead Quality",[h(/duplicate/)?"Duplicate Registration":h(/fake|spam/)?"Fake / Spam Registration":"Wrong / Incomplete Information"]],
+ [/already (enrolled|admitted|joined)|another institute|other institute/,"Already Enrolled",h(/online/)?"Wont Buy Due to Already Enrolled in Online":"Wont Buy Due to Already Enrolled in Offline",[]],
+ [/not interested|no need|don.t want|no longer|আগ্রহী না/,"Not Interested",pr?"Price / Financial Reasons":"Personal / Demand Reasons",pr?["Course Fee Too High"]:["No Longer Interested"]],
+ [/will pay|paying|payment|bkash|send money|pay tomorrow|টাকা দিবে/,"Promised","Promised to Pay",[]],
+ [/ready to enrol|will enrol|want(s)? to join|admission confirm|ভর্তি/,"Interested","Ready to Enroll",["Interested in Admission"]],
+ [/next batch/,"Interested","Course / Schedule Related",["Waiting for Next Batch"]],
+ [/price|fee|expensive|discount|installment|instalment|দাম/,"Interested","Price / Financial Concern",[h(/discount/)&&"Discount Required",h(/installment|instalment/)&&"Needs Installment Option",h(/expensive|high/)&&"Price Too High"].filter(Boolean)],
+ [/family|guardian|parents?|বাড়িতে/,"Indecisive","Personal Decision",["Needs Family Discussion"]],
+ [/compar/,"Indecisive","Comparing Options",["Comparing Other Institutes"]],
+ [/think|decide later|let (you|us) know|পরে জানাবে/,"Indecisive","Personal Decision",["Seeking More Time to Decide"]]];
+ const m=R.find(x=>h(x[0]));if(m){const[,pl,sp,ad]=m,p=planOf(pl),s=p&&p.sp.find(x=>x.n==sp);if(s){const ads=ad.filter(a=>s.add.includes(a));if(S.plan!=pl||S.sp!=sp||ads.some(a=>!S.add.has(a)))o.push(["Action: "+pl+" › "+sp,()=>{S.plan=pl;S.sp=sp;S.add.clear();ads.forEach(a=>S.add.add(a));S.addText=""}])}}
+ if(!S.fu){let d=null;const n=t.match(/(\d+)\s*(day|hour)/);if(h(/tomorrow|\bkal\b|কাল/))d=at(1,10);else if(h(/next week/))d=at(7,10);else if(n)d=n[2]=="day"?at(+n[1],11):(x=>{x.setHours(x.getHours()+ +n[1]);return fmt(x)})(new Date);else if(h(/tonight|evening|রাতে/))d=at(0,19);if(d)o.push(["Follow-up: "+pretty(d),()=>S.fu=d])}
+ if(!S.wa&&h(/sent (the )?(details|info)/)&&D.wa.includes("Sent Details"))o.push(["WhatsApp: Sent Details",()=>S.wa="Sent Details"]);
+ const ph=t.match(/01\d{9}/);if(ph&&!S.alt&&("88"+ph[0])!="8801772209999")o.push(["Alt number: "+ph[0],()=>S.alt=ph[0]]);
+ return o}
+let sug=[];
+function suggestUI(){sug=suggest();$("#ai").classList.toggle("show",sug.length>0);$("#aic").innerHTML=sug.map((s,i)=>`<button type="button" class="chip" data-s="${i}">✨ ${esc(s[0])}</button>`).join("")+(sug.length>1?`<button type="button" class="chip all" data-s="all">Apply all</button>`:"")}
+$("#aic").onclick=e=>{const b=e.target.closest("[data-s]");if(!b)return;(b.dataset.s=="all"?sug.slice():[sug[b.dataset.s]]).forEach(s=>s[1]());syncUI()};
+let dt;$("#rem").oninput=e=>{S.rem=e.target.value;$("#rc").textContent=S.rem.length+" / 500";clearTimeout(dt);dt=setTimeout(render,350)};
+// ---- save / clear / theme / IT ----
+function toast(m){const t=$("#toast");t.textContent=m;t.classList.add("show");setTimeout(()=>t.classList.remove("show"),2300)}
+function check(){showErr=true;render();const bad=$(".f.err");if(bad){bad.scrollIntoView({behavior:"smooth",block:"center"});toast("Complete the highlighted fields");return false}return true}
+function doSave(){T.n++;const tp=temp();if(tp)T[tp]++;if(S.fu)T.fu++;T.talk+=lastTalk||160;showErr=false}
+function clearAll(){Object.assign(S,{called:false,disp:"Call Received",callType:"",talk:"",status:"",studying:"",district:"",branch:"",branchTxt:"",future:"",batch:"",plan:"",sp:"",addText:"",fu:"",wa:"",alt:"",rem:"",showAll:false,open:{s3:false,s4:false}});["prep","course","other","add"].forEach(k=>S[k].clear());$("#ptm").textContent="00:00";$("#pst").textContent="Ready to call";lastTalk=0;showErr=false;syncUI()}
+$("#save").onclick=()=>{if(check()){doSave();toast("Saved");render()}};
+$("#saveNext").onclick=()=>{if(check()){doSave();toast("Saved. Loading next customer");setTimeout(clearAll,600)}};
+$("#reset").onclick=clearAll;
+const th=["auto","light","dark"];let ti=0;$("#theme").onclick=()=>{ti=(ti+1)%3;const m=th[ti];m=="auto"?document.documentElement.removeAttribute("data-theme"):document.documentElement.setAttribute("data-theme",m);$("#theme").textContent="Theme: "+m[0].toUpperCase()+m.slice(1)};
+function payload(){const L=s=>[...s];return{"Is Called":S.called,"Customer Number":"8801772209999","Customer Name":$("#cname").value,"Cohort Name":"Nov_CMS_SEP","Disposition":S.disp,"Call Type":S.callType,"Talking To":S.talk,"Branch":branchVal(),"Student Type":S.kid?"Kids":"Adult","Current Status of Student":S.status,"District":S.district,"Currently Studying":S.studying,"Current Preparation Plan":L(S.prep),"Future Plan":S.future,"Course of Advice":L(S.course),"Course of Advice (Optional)":L(S.other),"Preferred Batch Time":S.batch,"Action Plan":S.plan,"Sales Potential":S.sp,"Additional Sales Potential":[...S.add].concat(S.addText?[S.addText]:[]),"Lead Temperature":temp(),"Follow-Up Date & Time":S.fu,"WhatsApp Communication":S.wa,"Alternative Number":S.alt,"Remarks":S.rem,"Call Duration (sec)":lastTalk}}
+const rules=["Call Type options depend on Disposition (Call Received vs Followed Up).","Disposition = Followed Up: Student Information and Course Advice are optional (collapsed, not required).","Follow-up call on a lead whose last call was Interested or Promised: Action Plan shows only Interested and Promised (Show all overrides).","Sales Potential depends on Action Plan; Additional Sales Potential depends on Sales Potential (multi-select, or a text box for agent / branch names).","Lead temperature: Promised and Interested > Ready to Enroll = hot; other Interested and Indecisive = warm; all others = cold. Follow-up date is required for hot and warm leads.","Control types: 2 to 4 short options = segmented buttons; longer single lists = dropdown; multi-select = checklist (dropdown with search when more than 5).","Currently Studying shows all 23 options for both Adult and Kids; the toggle is saved as Student Type.","Branch: Mentors’ Dhaka (7 branches), Outside Dhaka, Online / Overseas, or Other with a manual text box."];
+$("#it").onclick=()=>{$("#json").value=JSON.stringify({payload:payload(),previous_status_sample:last(),field_rules:rules,options:D},null,2);$("#itd").showModal()};
+const cp=async t=>{try{await navigator.clipboard.writeText(t)}catch(e){const a=$("#json");a.value=t;a.select();document.execCommand("copy")}toast("Copied")};
+$("#cpJson").onclick=()=>cp($("#json").value);$("#cpLink").onclick=()=>cp(location.href);$("#closeIt").onclick=()=>$("#itd").close();
+$("#cpSum").onclick=()=>cp(lines().filter(x=>x[1]).map(x=>x[0]+": "+x[1]).join("\n")||"Nothing filled in yet");
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)$$("#nav a").forEach(a=>a.classList.toggle("on",a.getAttribute("href")=="#"+e.target.id))}),{rootMargin:"-30% 0px -60% 0px"});
+$$("section").forEach(s=>io.observe(s));
+syncUI();
+</script>
+</body>
+</html>
